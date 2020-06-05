@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias type="kr.co.ikosmo.mvc.vo.PageVO" alias="pvo"/>	
+		<typeAlias type="kr.co.ikosmo.mvc.vo.MemberDemoVO" alias="mem"/>	
+		<typeAlias type="kr.co.ikosmo.mvc.vo.TBoardVO" alias="tdto"/>
+		<typeAlias type="kr.co.ikosmo.mvc.vo.SurveyVO" alias="survo"/>
+		<typeAlias type="kr.co.ikosmo.mvc.vo.SubveyContentVO" alias="subvo"/>
+		<typeAlias type="kr.co.ikosmo.mvc.vo.SubveyView2VO" alias="surview2"/>
+	</typeAliases>
+</configuration>

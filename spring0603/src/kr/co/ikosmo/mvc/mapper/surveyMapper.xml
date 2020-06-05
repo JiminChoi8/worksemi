@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="survey">
+	<insert id="add" parameterType="survo">
+		insert into survey values(survey_seq.nextVal, #{sub}, #{code},sysdate)
+	</insert>
+
+	<insert id="addcontent" parameterType="java.util.List">
+		<selectKey keyProperty="id" resultType="int" order="BEFORE">
+			select survey_seq.currVal FROM DUAL
+		</selectKey>
+		<foreach collection="list" item="e" separator=""
+			open="insert all" close="SELECT * FROM DUAL">
+			into surveycontent values('${e.surveytype}', #{id},'${e.surveytitel}',0)
+		</foreach>
+	</insert>
+
+
+	<select id="adminList" resultType="survo">
+		<!-- select num, sub, code, sdate from survey order by num desc -->
+		select distinct s.num, s.sub, s.code, s.sdate, c.total from survey s,
+		(select sum(surveycnt) total, subcode from surveycontent group by
+		subcode) c where s.num = c.subcode
+		order by 1 desc
+	</select>
+
+
+	<!-- 다중FOR문 insert all into surveycontent values('A','5','예',0) into surveycontent 
+		values('B','5','예',0) into surveycontent values('C','5','예',0) select * from 
+		dual; -->
+
+	<select id="adminDetail" parameterType="int"
+		resultType="surview2">
+		select s.num, s.sub, s.code, s.sdate, su.surveytype, su.subcode,
+		su.SURVEYTITEL ,su.SURVEYCNT
+		from survey s, surveycontent su
+		where s.num=su.subcode and s.num=#{num}
+	</select>
+
+
+	<select id="surveyclient" resultType="surview2">
+		select s.num num, s.sub sub, s.code code, s.sdate sdate, su.surveytype
+		surveytype, su.subcode subcode, su.surveytitel surveytitel ,
+		su.surveycnt surveycnt from survey s , surveycontent su
+		where s.num = su.subcode and s.num =(select max(num) from survey)
+
+	</select>
+
+
+
+	<update id="update1" parameterType="surview2">
+		update surveycontent set surveycnt = surveycnt +1
+		where subcode=#{subcode} and surveytype=#{surveytype}
+	</update>
+
+
+	<delete id="delet1" parameterType="int">
+		delete from SURVEYCONTENT where subcode=#{subcode };
+	</delete>
+
+	<delete id="delet2" parameterType="int">
+		delete from survey where num=#{num};
+	</delete>
+
+
+
+
+
+
+
+</mapper>

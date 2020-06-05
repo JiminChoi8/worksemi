@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="tvo">
+  	<insert id="add" parameterType="tdto">
+  		insert into tvo values(tvo_seq.nextVal, #{sub}, #{writer}, #{content}, #{pwd}, #{imgfile})
+  	</insert>
+  	<select id="list" resultType="tdto">
+  		select num, sub, writer, mfile as imgfile from tvo order by 1 desc
+  	</select>
+  	
+  	<select id="pwdChk" parameterType="int" resultType="String">
+  	select pwd from tvo where num=#{num}
+  	</select>
+  	
+  	<select id="detail" parameterType="int" resultType="tdto">
+  	select num, sub, writer, content, mfile as imgfile from tvo where num=#{num}
+  	</select>
+  </mapper>
+
